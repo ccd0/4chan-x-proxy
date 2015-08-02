@@ -4,12 +4,12 @@ import http.server, http.client, socketserver, threading, sys, re
 def proxyConfig(handler):
   headers = [('Content-Type', 'application/x-javascript-config')]
   data = b'''function FindProxyForURL(url, host) {
-    if (/^http:\/\/boards\.4chan\.org\//.test(url)) {
-      return 'PROXY localhost:8000';
-    }
-    return 'DIRECT';
+  if (/^http:\/\/boards\.4chan\.org\//.test(url)) {
+    return 'PROXY localhost:8000';
   }
-  '''
+  return 'DIRECT';
+}
+'''
   return headers, data
 
 def localScript(filename):
