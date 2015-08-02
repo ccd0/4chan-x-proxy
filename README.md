@@ -1,4 +1,4 @@
-A simple script that runs a proxy on your local machine injecting the 4chan X script into 4chan, for use in browsers that don't support userscripts.
+A simple script that runs a proxy on your local machine injecting the 4chan X script into 4chan, for use in browsers that don't support userscripts. Only works on http://boards.4chan.org/ (no HTTPS support).
 
 Download it [here](https://ccd0.github.io/4chan-x-proxy/proxy.py).
 
