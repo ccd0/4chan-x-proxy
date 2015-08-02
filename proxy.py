@@ -1,5 +1,29 @@
 #!/usr/bin/env python3
+VERSION = ''
 import http.server, http.client, socketserver, threading, sys, re, html
+
+port = 8000
+scriptURL = 'https://ccd0.github.io/4chan-x/builds/4chan-X.user.js'
+scriptFilename = None
+
+for arg in sys.argv[1:]:
+  if re.match(r'^\d+$', arg):
+    port = int(arg)
+  elif re.match(r'^https?://', arg):
+    scriptURL = arg
+    scriptFilename = None
+  else:
+    scriptURL = 'http://localhost:8000/script.js'
+    scriptFilename = arg
+
+print('4chan X proxy v' + VERSION)
+print('Running on port ' + str(port))
+if scriptFilename is None:
+  print('Using script from URL: ' + scriptURL)
+else:
+  print('Using script from local file: ' + scriptFilename)
+print('Syntax: ' + sys.argv[0] + ' [port] [script URL or filename]')
+print()
 
 def proxyConfig(handler):
   headers = [('Content-Type', 'application/x-javascript-config')]
@@ -23,20 +47,9 @@ def localScript(filename):
     return headers, data
   return callback
 
-port = 8000
 resources = {'/proxy.pac': proxyConfig}
-scriptURL = 'https://ccd0.github.io/4chan-x/builds/4chan-X.user.js'
-
-for arg in sys.argv[1:]:
-  if re.match(r'^\d+$', arg):
-    port = int(arg)
-  elif re.match(r'^https?://', arg):
-    if '/script.js' in resources:
-      del resources['/script.js']
-    scriptURL = arg
-  else:
-    resources['/script.js'] = localScript(arg)
-    scriptURL = 'http://localhost:8000/script.js'
+if scriptFilename is not None:
+  resources['/script.js'] = localScript(scriptFilename)
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
   def do_HEAD(self):
