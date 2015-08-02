@@ -19,7 +19,7 @@ if scriptFilename is not None:
   scriptURL = 'http://localhost:' + str(port) + '/script.js'
 
 print('4chan X proxy v' + VERSION)
-print('Running on port ' + str(port))
+print('Set your proxy to be autoconfigured from: http://localhost:' + str(port) + '/proxy.pac')
 if scriptFilename is None:
   print('Using script from URL: ' + scriptURL)
 else:
