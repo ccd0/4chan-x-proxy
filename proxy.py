@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import http.server, http.client, socketserver, threading, sys, re
+import http.server, http.client, socketserver, threading, sys, re, html
 
 def proxyConfig(handler):
   headers = [('Content-Type', 'application/x-javascript-config')]
@@ -25,12 +25,18 @@ def localScript(filename):
 
 port = 8000
 resources = {'/proxy.pac': proxyConfig}
+scriptURL = 'https://ccd0.github.io/4chan-x/builds/4chan-X.user.js'
 
 for arg in sys.argv[1:]:
   if re.match(r'^\d+$', arg):
     port = int(arg)
+  elif re.match(r'^https?://', arg):
+    if '/script.js' in resources:
+      del resources['/script.js']
+    scriptURL = arg
   else:
     resources['/script.js'] = localScript(arg)
+    scriptURL = 'http://localhost:8000/script.js'
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
   def do_HEAD(self):
@@ -64,10 +70,7 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
       body = response.read()
     finally:
       conn.close()
-    url = b'https://ccd0.github.io/4chan-x/builds/4chan-X.user.js'
-    if '/script.js' in resources:
-      url = b'http://localhost:8000/script.js'
-    body = body.replace(b'<head>', b'<head><script src="' + url + b'"></script>', 1)
+    body = body.replace(b'<head>', b'<head><script src="' + html.escape(scriptURL).encode('utf-8') + b'"></script>', 1)
     self.send_response(response.status, response.reason)
     for header, value in response.getheaders():
       if header.lower() not in ('date', 'connection', 'transfer-encoding', 'content-length'):
