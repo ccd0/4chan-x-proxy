@@ -13,8 +13,10 @@ for arg in sys.argv[1:]:
     scriptURL = arg
     scriptFilename = None
   else:
-    scriptURL = 'http://localhost:8000/script.js'
     scriptFilename = arg
+
+if scriptFilename is not None:
+  scriptURL = 'http://localhost:' + str(port) + '/script.js'
 
 print('4chan X proxy v' + VERSION)
 print('Running on port ' + str(port))
@@ -29,12 +31,12 @@ def proxyConfig(handler):
   headers = [('Content-Type', 'application/x-javascript-config')]
   data = b'''function FindProxyForURL(url, host) {
   if (/^http:\/\/boards\.4chan\.org\//.test(url)) {
-    return 'PROXY localhost:8000';
+    return 'PROXY localhost:$port';
   }
   return 'DIRECT';
 }
 '''
-  return headers, data
+  return headers, data.replace(b'$port', str(port).encode())
 
 def localScript(filename):
   def callback(handler):
