@@ -10,8 +10,4 @@ The script has these command line arguments:
 
 The port defaults to 8000, and the script defaults to https://ccd0.github.io/4chan-x/builds/4chan-X.user.js.
 
-**Note**: MS Edge users will need to change the URL to the beta version for now:
-
-`python proxy.py https://ccd0.github.io/4chan-x/builds/4chan-X-beta.user.js`
-
 To use, run the script and change your proxy settings to use http://localhost:8000/proxy.pac (or http://localhost:PORT/proxy.pac) as the proxy auto-config URL.
