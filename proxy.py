@@ -3,7 +3,7 @@ VERSION = '0.0.1'
 import http.server, http.client, socketserver, threading, sys, re, html
 
 port = 8000
-scriptURL = 'https://ccd0.github.io/4chan-x/builds/4chan-X.user.js'
+scriptURL = 'https://www.4chan-x.net/builds/4chan-X.user.js'
 scriptFilename = None
 
 for arg in sys.argv[1:]:

@@ -8,6 +8,6 @@ The script has these command line arguments:
 
 `python proxy.py [port] [script filename or URL]`
 
-The port defaults to 8000, and the script defaults to https://ccd0.github.io/4chan-x/builds/4chan-X.user.js.
+The port defaults to 8000, and the script defaults to https://www.4chan-x.net/builds/4chan-X.user.js.
 
 To use, run the script and change your proxy settings to use http://localhost:8000/proxy.pac (or http://localhost:PORT/proxy.pac) as the proxy auto-config URL.
