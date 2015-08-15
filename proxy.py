@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 import http.server, http.client, socketserver, threading, sys, re, html
 
 port = 8000
